@@ -1,0 +1,28 @@
+@import "../abstracts/mixins.scss";
+@import "../abstracts/variables.scss";
+
+.formula {
+    position: absolute;
+    top: $header-height + $toolbar-height;
+    left: 0;
+    right: 0;
+    height: $formula-height;
+    display: flex;
+
+    border-bottom: 1px solid $border-color;
+
+    &__icon {
+        color: rgb(168, 164, 164);
+        font-size: 18px;
+        font-style: italic;
+        min-width: $row-info-cell;
+        text-align: center;
+        border-right: 1px solid $border-color;
+    }
+
+    &__input {
+        outline: none;
+        border: none;
+        width: 100%;
+    }
+}
