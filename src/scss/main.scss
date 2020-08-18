@@ -1,8 +1,21 @@
-$color: #1555a8;
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+@import "./components/header.scss";
+@import "./components/toolbar.scss";
+@import "./components/formula.scss";
+@import "./components/table.scss";
+@import "./components/buttons.scss";
+@import "./components/welcomePage.scss";
+* {
+    box-sizing: border-box;
+}
 
 body {
-    font-size: 22px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: $color;
-    color: white;
+    margin: 0px;
+    padding: 0px;
+    font-family: "Roboto", sans-serif;
+}
+
+.excel {
+    position: relative;
 }

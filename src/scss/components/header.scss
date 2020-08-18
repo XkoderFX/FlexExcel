@@ -1,0 +1,32 @@
+@import "../abstracts/mixins.scss";
+@import "../abstracts/variables.scss";
+.header {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: 0px;
+    height: $header-height;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 4px 0;
+
+    &__title-input {
+        margin: 0;
+        height: 23px;
+        padding: 8px 7px;
+        color: black;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        font-size: 18px;
+        line-height: 22px;
+        outline: none;
+
+        &:hover {
+            border: 1px solid #eee;
+        }
+
+        @include foucsEffect;
+    }
+}

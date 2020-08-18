@@ -36,19 +36,19 @@ module.exports = {
     devtool: isDev ? "source-map" : false,
     devServer: {
         hot: isDev,
+        watchContentBase: true,
     },
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: "index.html",
-            /** we didn't select source
-             becouse the context*/
 
             minify: {
                 removeComments: isProduction,
                 collapseWhitespace: isProduction,
             },
         }),
+
         new CopyPlugin({
             patterns: [
                 {
@@ -60,22 +60,15 @@ module.exports = {
         new MiniCss({
             filename: filename("css"),
         }),
+        new MiniCss({
+            filename: `assets/${filename("css")}`,
+        }),
     ],
     module: {
         rules: [
             {
                 test: /\.scss$/i,
-                use: [
-                    {
-                        loader: MiniCss.loader,
-                        options: {
-                            hmr: true,
-                            reloadAll: true,
-                        },
-                    },
-                    "css-loader",
-                    "sass-loader",
-                ],
+                use: [MiniCss.loader, "css-loader", "sass-loader"],
             },
 
             {
