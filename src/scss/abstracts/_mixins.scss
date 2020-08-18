@@ -1,0 +1,39 @@
+@mixin button($color: green) {
+    height: 24px;
+    min-width: 24px;
+    padding: 3px;
+    text-align: center;
+    user-select: none;
+    color: #5b6061;
+
+    & i {
+        font-size: 21px;
+        margin-top: -3px;
+    }
+
+    &:active,
+    &.active {
+        color: $color;
+    }
+
+    &:hover {
+        background-color: #eee;
+        cursor: pointer;
+    }
+}
+
+@mixin cell($min-width: 100px) {
+    min-width: $min-width;
+
+    background-color: #f8f9fa;
+    border: 1px solid #e2e3e3;
+    font-family: inherit;
+}
+
+@mixin foucsEffect {
+    &:focus {
+        transition: box-shadow 200ms linear;
+        outline: none;
+        box-shadow: 0px 0px 0px 2px $hover-color;
+    }
+}

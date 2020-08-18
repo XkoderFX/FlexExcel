@@ -1,0 +1,41 @@
+@import "../abstracts/mixins.scss";
+@import "../abstracts/variables.scss";
+
+table {
+    border-spacing: 0;
+}
+
+.table {
+    max-width: 100%;
+    position: absolute;
+    top: $formula-height + $toolbar-height + $header-height;
+    overflow-x: auto;
+    &__column {
+        @include cell();
+        padding: 0px;
+        input {
+            outline: 0px;
+            border: none;
+            width: $cell;
+            @include foucsEffect;
+        }
+    }
+
+    &__row--head {
+        .table__column--info {
+            @include cell($row-info-cell);
+        }
+
+        .table__column--head {
+            color: #777;
+            font-size: 14px;
+            font-weight: 400;
+            @include cell();
+        }
+    }
+
+    .table__column-num {
+        @include cell($row-info-cell);
+        text-align: center;
+    }
+}

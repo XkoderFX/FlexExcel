@@ -1,0 +1,22 @@
+@import "../abstracts/mixins.scss";
+@import "../abstracts/variables.scss";
+
+.excel__toolbar {
+    height: $toolbar-height;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: $header-height;
+    border-top: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+    display: flex;
+
+    .buttons {
+        display: flex;
+        margin-left: 10px;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+}
