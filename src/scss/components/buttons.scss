@@ -1,0 +1,16 @@
+.buttons {
+    display: flex;
+    margin-top: auto;
+
+    &__btn {
+        @include button();
+    }
+
+    &__btn--back {
+        @include button();
+    }
+
+    &__btn--trash {
+        @include button(red);
+    }
+}
