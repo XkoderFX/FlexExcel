@@ -3,52 +3,29 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCss = require("mini-css-extract-plugin");
-const isProduction = process.env.NODE_ENV === "production";
-const isDev = !isProduction;
 
-const filename = (ext) => (isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`);
-
-const jsLoaders = () => {
-    const loaders = [
-        {
-            loader: "babel-loader",
-            options: {
-                presets: ["@babel/preset-env"],
-            },
-        },
-    ];
-    return loaders;
+const jsLoader = {
+    loader: "babel-loader",
+    options: {
+        presets: ["@babel/preset-env"],
+    },
 };
 
 module.exports = {
     context: path.resolve(__dirname, "src"),
-    entry: ["@babel/polyfill", "./index.js"],
-    output: {
-        filename: filename("js"),
-        path: path.resolve(__dirname, "dist"),
-    },
+    entry: ["@babel/polyfill", "./index.ts"], //fix regenerator error
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "src"),
             core: path.resolve(__dirname, "core"),
         },
-    },
-    devtool: isDev ? "source-map" : false,
-    devServer: {
-        hot: isDev,
-        watchContentBase: true,
+        extensions: [".tsx", ".ts", ".js"],
     },
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: "index.html",
-
-            minify: {
-                removeComments: isProduction,
-                collapseWhitespace: isProduction,
-            },
         }),
-
         new CopyPlugin({
             patterns: [
                 {
@@ -56,12 +33,6 @@ module.exports = {
                     to: path.resolve(__dirname, "dist"),
                 },
             ],
-        }),
-        new MiniCss({
-            filename: filename("css"),
-        }),
-        new MiniCss({
-            filename: `assets/${filename("css")}`,
         }),
     ],
     module: {
@@ -73,7 +44,13 @@ module.exports = {
 
             {
                 test: /\.js$/i,
-                use: jsLoaders(),
+                use: jsLoader,
+            },
+
+            {
+                test: /\.tsx?$/,
+                exclude: [/node_modules/],
+                use: "ts-loader",
             },
         ],
     },
