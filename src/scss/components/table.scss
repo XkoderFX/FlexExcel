@@ -7,9 +7,12 @@ table {
 
 .table {
     max-width: 100%;
+    max-height: $table-height;
+
     position: absolute;
     top: $formula-height + $toolbar-height + $header-height;
-    overflow-x: auto;
+    overflow: scroll;
+
     &__column {
         @include cell();
         padding: 0px;
@@ -17,25 +20,26 @@ table {
             outline: 0px;
             border: none;
             width: $cell;
+            height: 100%;
             @include foucsEffect;
         }
     }
 
-    &__row--head {
-        .table__column--info {
-            @include cell($row-info-cell);
-        }
+    .table__column--info {
+        @include cell($row-info-cell);
+    }
 
-        .table__column--head {
-            color: #777;
-            font-size: 14px;
-            font-weight: 400;
-            @include cell();
-        }
+    &__column--head {
+        font-size: 14px;
+        font-weight: 400;
+        @include cell();
+        color: #777;
     }
 
     .table__column-num {
         @include cell($row-info-cell);
+        color: #777;
+        font-size: 14px;
         text-align: center;
     }
 }

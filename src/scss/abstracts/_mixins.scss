@@ -24,10 +24,12 @@
 
 @mixin cell($min-width: 100px) {
     min-width: $min-width;
-
+    height: 24px;
     background-color: #f8f9fa;
     border: 1px solid #e2e3e3;
-    font-family: inherit;
+    input {
+        font-family: "Roboto", sans-serif;
+    }
 }
 
 @mixin foucsEffect {
