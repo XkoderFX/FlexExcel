@@ -17,7 +17,7 @@ module.exports = {
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "src"),
-            core: path.resolve(__dirname, "core"),
+            core: path.resolve(__dirname, "src/core"),
         },
         extensions: [".tsx", ".ts", ".js"],
     },
@@ -39,7 +39,16 @@ module.exports = {
         rules: [
             {
                 test: /\.scss$/i,
-                use: [MiniCss.loader, "css-loader", "sass-loader"],
+                use: [
+                    {
+                        loader: MiniCss.loader,
+                        options: {
+                            hmr: true,
+                        },
+                    },
+                    "css-loader",
+                    "sass-loader",
+                ],
             },
 
             {
