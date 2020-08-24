@@ -1,12 +1,20 @@
-enum CODES {
+export enum CODES {
     A = 65,
     Z = 90,
 }
 
 function createRow(content: string, index?: number): string {
+    const resizer = index
+        ? /*html*/ `<div data-resize="row" class="row-resize"></div>`
+        : "";
+
     return /*html*/ `
     <tr class="table__row">
-        <td class="table__column table__column-num">${index ?? ""}</td>
+        <td data-type="resizable" class="table__column table__column-num">${
+            index ?? ""
+        }
+            ${resizer}
+        </td>
         ${content}
     </tr>
     `;
@@ -14,7 +22,10 @@ function createRow(content: string, index?: number): string {
 
 function createLetterColumn(letter: string) {
     return /*html*/ `
-        <th class="table__column table__column--head">${letter}</th>
+        <th class="table__column table__column--head" data-type="resizable">
+            ${letter}
+            <div data-resize="col" class="col-resize"></div>
+        </th>
     `;
 }
 

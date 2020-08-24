@@ -36,6 +36,40 @@ export class Dom {
         this.html("");
         return this;
     }
+
+    closest(selector: string) {
+        return DM(this.$el.closest(selector) as HTMLElement);
+    }
+
+    setMinWidth(num: number, unit: string) {
+        this.$el.style.minWidth = num + unit;
+    }
+
+    setMinheight(num: number, unit: string) {
+        this.$el.style.height = num + unit;
+    }
+
+    get textContent() {
+        return this.$el.textContent;
+    }
+
+    get width() {
+        return this.$el.offsetWidth;
+    }
+
+    get height() {
+        return this.$el.offsetHeight;
+    }
+
+    get boundingRect() {
+        return this.$el.getBoundingClientRect();
+    }
+
+    css(styles: { [prop: string]: string } = {}) {
+        Object.keys(styles).forEach((key: any) => {
+            this.$el.style[key] = styles[key];
+        });
+    }
 }
 
 export function DM(selector: string | HTMLElement) {
