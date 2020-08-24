@@ -8,6 +8,7 @@ table {
 .table {
     max-width: 100%;
     max-height: $table-height;
+    table-layout: fixed;
 
     position: absolute;
     top: $formula-height + $toolbar-height + $header-height;
@@ -21,6 +22,7 @@ table {
             border: none;
             width: $cell;
             height: 100%;
+            width: 100%;
             @include foucsEffect;
         }
     }
@@ -29,17 +31,50 @@ table {
         @include cell($row-info-cell);
     }
 
+    .col-resize,
+    .row-resize {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        background: #3c74ff;
+
+        &:hover {
+            opacity: 1 !important;
+            cursor: col-resize;
+        }
+    }
+
     &__column--head {
+        position: relative;
         font-size: 14px;
         font-weight: 400;
         @include cell();
         color: #777;
+        .col-resize {
+            top: 0;
+            min-width: 4px;
+            &:hover {
+                cursor: col-resize;
+            }
+        }
     }
 
     .table__column-num {
         @include cell($row-info-cell);
+        position: relative;
+
         color: #777;
         font-size: 14px;
         text-align: center;
+
+        .row-resize {
+            position: absolute;
+            min-height: 4px;
+            left: 0;
+            &:hover {
+                cursor: row-resize;
+            }
+        }
     }
 }
