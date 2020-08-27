@@ -29,11 +29,11 @@ function createLetterColumn(letter: string) {
     `;
 }
 
-function createColumn() {
+function createColumn(x: number, y: number) {
     return /*html*/ `
-    <td class="table__column">
-        <input type="text" />
-    </td>
+        <td data-id=${x}:${y} data-type="cell" class="table__column">
+            <input type="text" />
+        </td>
     `;
 }
 
@@ -52,7 +52,10 @@ export function createTable(rowsCount = 10) {
     rows.push(createRow(cols));
 
     for (let i = 0; i < rowsCount; i++) {
-        const cells = new Array(colsCount).fill("").map(createColumn).join("");
+        const cells = new Array(colsCount)
+            .fill("")
+            .map((_, index) => createColumn(index, i))
+            .join("");
 
         rows.push(createRow(cells, i + 1));
     }

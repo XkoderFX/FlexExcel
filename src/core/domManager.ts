@@ -7,6 +7,14 @@ export class Dom {
                 : selector;
     }
 
+    addClass(className: string) {
+        this.$el.classList.add(className);
+    }
+
+    removeClass(className: string) {
+        this.$el.classList.remove(className);
+    }
+
     html(html?: string) {
         if (typeof html === "string") {
             this.$el.innerHTML = html;
@@ -49,8 +57,18 @@ export class Dom {
         this.$el.style.height = num + unit;
     }
 
-    get textContent() {
+    get text() {
+        if (this.$el.tagName == "INPUT") {
+            return (<HTMLInputElement>this.$el).value;
+        }
         return this.$el.textContent;
+    }
+
+    set text(text: string) {
+        if (this.$el.tagName == "INPUT") {
+            (<HTMLInputElement>this.$el).value = text;
+        }
+        this.$el.textContent = text;
     }
 
     get width() {
@@ -61,14 +79,58 @@ export class Dom {
         return this.$el.offsetHeight;
     }
 
+    get dataSet() {
+        return this.$el.dataset;
+    }
+
+    id(parse?: boolean): string | { row: number; col: number } {
+        if (parse) {
+            const parsed = this.dataSet.id.split(":");
+
+            return {
+                col: Number(parsed[0]),
+                row: Number(parsed[1]),
+            };
+        }
+        return this.dataSet.id;
+    }
+
+    get parentElement() {
+        return DM(this.$el.parentElement);
+    }
+
     get boundingRect() {
         return this.$el.getBoundingClientRect();
+    }
+
+    find(selector: string) {
+        const $elem = document.querySelector(selector) as HTMLElement;
+
+        return DM($elem);
+    }
+
+    findIn(selector: string) {
+        const $elem = this.$el.querySelector(selector) as HTMLElement;
+
+        return DM($elem);
     }
 
     css(styles: { [prop: string]: string } = {}) {
         Object.keys(styles).forEach((key: any) => {
             this.$el.style[key] = styles[key];
         });
+    }
+
+    focusOn() {
+        this.$el.focus();
+    }
+
+    get tagName() {
+        return this.$el.tagName;
+    }
+
+    get firstChild() {
+        return DM(this.$el.firstElementChild as HTMLElement);
     }
 }
 
