@@ -2,21 +2,10 @@ export function capitalize(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-let oldX: number = 0;
-let oldY: number = 0;
-
-export function getMouseDirection(PageX: number, PageY: number) {
-    enum mouseDriections {
-        left = 0,
-        right = 1,
+export function range(start: number, end: number) {
+    if (start > end) {
+        [end, start] = [start, end];
     }
 
-    if (PageX > oldX) {
-        return mouseDriections.right;
-    } else {
-        return mouseDriections.left;
-    }
-
-    oldX = PageX;
-    oldY = PageY;
+    return new Array(end - start + 1).fill("").map((_, index) => start + index);
 }

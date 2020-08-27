@@ -4,9 +4,10 @@ import { Dom } from "core/domManager";
 export class Header extends ExcelComponent {
     static className: string = "header";
 
-    constructor($root: Dom) {
+    constructor($root: Dom , options: any) {
         super($root, {
             name: "Header",
+            ...options
         });
     }
 

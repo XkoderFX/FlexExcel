@@ -4,10 +4,19 @@ import { Dom } from "core/domManager";
 export class Formula extends ExcelComponent {
     static className: string = "formula";
 
-    constructor($root: Dom) {
+    constructor($root: Dom, options: any) {
         super($root, {
             name: "Formula",
             listeners: ["input"],
+            ...options,
+        });
+    }
+
+    init() {
+        super.init();
+
+        this.$on("cellChanged", (text) => {
+            this.$root.findIn("input").text = text;
         });
     }
 
@@ -21,6 +30,7 @@ export class Formula extends ExcelComponent {
     }
 
     onInput(event: Event) {
-        console.log(this.$root);
+        const text = (<HTMLInputElement>event.target).value;
+        this.emitter.emit("formulaChanged", text);
     }
 }
