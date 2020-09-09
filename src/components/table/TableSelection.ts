@@ -8,10 +8,14 @@ export class TableSelection {
 
     constructor() {}
 
+    get selectedIds() {
+        return this.group.map((elem) => {
+            return elem.id();
+        });
+    }
+
     // $el instanceof DOM === true
     select($el: Dom) {
-        console.log($el);
-
         try {
             this.clear();
             if ($el.tagName !== "INPUT") {
@@ -42,6 +46,12 @@ export class TableSelection {
             ); // we need the inner input therefore, FirstChild
             this.group.push($elem);
             $elem.addClass("selected");
+        });
+    }
+
+    applyStyle([style]: any) {
+        this.group.forEach(($el) => {
+            $el.css(style);
         });
     }
 }

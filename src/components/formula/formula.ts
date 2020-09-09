@@ -8,6 +8,7 @@ export class Formula extends ExcelComponent {
         super($root, {
             name: "Formula",
             listeners: ["input"],
+            subscribe: ["currentText"],
             ...options,
         });
     }
@@ -15,8 +16,10 @@ export class Formula extends ExcelComponent {
     init() {
         super.init();
 
-        this.$on("cellChanged", (text) => {
-            this.$root.findIn("input").text = text;
+        const $formula = this.$root.findIn("input");
+
+        this.$on("selectCell", ([$cell]: [Dom]) => {
+            $formula.text = $cell.dataSet.value;
         });
     }
 
@@ -32,5 +35,11 @@ export class Formula extends ExcelComponent {
     onInput(event: Event) {
         const text = (<HTMLInputElement>event.target).value;
         this.emitter.emit("formulaChanged", text);
+    }
+
+    storeChanged({ currentText }: { currentText: string }) {
+        const $formula = this.$root.findIn("input");
+
+        $formula.text = currentText;
     }
 }

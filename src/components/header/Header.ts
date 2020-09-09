@@ -1,21 +1,28 @@
 import ExcelComponent from "core/ExcelComponent";
-import { Dom } from "core/domManager";
+import { Dom, DM } from "core/domManager";
+import { changeTitle } from "@/reducer/actions";
 
 export class Header extends ExcelComponent {
+    storeChanged() {
+        throw new Error("Method not implemented.");
+    }
     static className: string = "header";
 
-    constructor($root: Dom , options: any) {
+    constructor($root: Dom, options: any) {
         super($root, {
             name: "Header",
-            ...options
+            listeners: ["input"],
+            ...options,
         });
     }
 
     toHTML(): string {
+        const { title } = this.store.getState();
+
         return /*html*/ `
         <input
         type="text"
-        value="New Table"
+        value='${title || "New Table"}'
         class="header__title-input"
         />
 
@@ -29,5 +36,10 @@ export class Header extends ExcelComponent {
             </div>
         </div>
        `;
+    }
+
+    onInput(event: Event) {
+        const $target = DM(event.target as HTMLElement);
+        this.$dispatch(changeTitle($target.text));
     }
 }

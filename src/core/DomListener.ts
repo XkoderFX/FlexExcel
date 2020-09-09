@@ -3,7 +3,7 @@ import { capitalize } from "./utils";
 
 export default class DomListener {
     protected $root: Dom;
-    private listeners: string[];
+    protected listeners: string[];
     [prop: string]: any;
 
     constructor($root: Dom, listeners: string[] = []) {

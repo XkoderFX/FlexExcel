@@ -1,0 +1,9 @@
+enum types {
+    TABLE_RESIZE = "TABLE_RESIZE",
+    CHANGE_TEXT = "CHANGE_TEXT",
+    APPLY_STYLE = "APPLY_STYLE",
+    CHANGE_STYLE = "CHANGE_STYLE",
+    CHANGE_TITLE = "CHANGE_TITLE",
+}
+
+export default types;

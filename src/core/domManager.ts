@@ -11,6 +11,10 @@ export class Dom {
         this.$el.classList.add(className);
     }
 
+    get nativeElem() {
+        return this.$el;
+    }
+
     removeClass(className: string) {
         this.$el.classList.remove(className);
     }
@@ -66,9 +70,19 @@ export class Dom {
 
     set text(text: string) {
         if (this.$el.tagName == "INPUT") {
-            (<HTMLInputElement>this.$el).value = text;
+            (this.$el as HTMLInputElement).value = text;
+            return;
         }
         this.$el.textContent = text;
+    }
+
+    attr(name: string, value?: string) {
+        if (value) {
+            this.$el.setAttribute(name, value);
+            return this;
+        }
+
+        return this.$el.getAttribute(name);
     }
 
     get width() {
@@ -119,6 +133,13 @@ export class Dom {
         Object.keys(styles).forEach((key: any) => {
             this.$el.style[key] = styles[key];
         });
+    }
+
+    getStyles(styles: string[]) {
+        return styles.reduce((res: { [key: string]: string }, style: any) => {
+            res[style] = this.$el.style[style];
+            return res;
+        }, {});
     }
 
     focusOn() {

@@ -27,6 +27,11 @@
     height: 24px;
     background-color: #f8f9fa;
     border: 1px solid #e2e3e3;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
     input {
         font-family: "Roboto", sans-serif;
     }

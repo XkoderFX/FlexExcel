@@ -1,43 +1,49 @@
-import ExcelComponent from "core/ExcelComponent";
-import { Dom } from "core/domManager";
+import { Dom, DM } from "core/domManager";
+import { createToolbar } from "./toolbar.template";
+import ExcelStateComponent from "core/ExcelStateComponent";
+import { defaultStyles } from "@/constants";
+import * as HtmlWebpackPlugin from "html-webpack-plugin";
 
-export class Toolbar extends ExcelComponent {
+export class Toolbar extends ExcelStateComponent {
     static className: string = "excel__toolbar";
 
-    constructor($root: Dom, options:any) {
+    constructor($root: Dom, options: any) {
         super($root, {
             name: "Toolbar",
+            listeners: ["click"],
+            subscribe: ["currentStyles"],
             ...options,
         });
+        this.prepare();
+    }
+
+    prepare() {
+        const initialState = defaultStyles;
+
+        this.initState(initialState);
+    }
+
+    get template() {
+        return createToolbar(this.state);
+    }
+
+    storeChanged(changes: any) {
+        this.setState(changes.currentStyles);
     }
 
     toHTML(): string {
-        return /*html*/ `
-        <div class="buttons">
-            <div class="buttons__btn">
-                <i class="material-icons">format_align_left </i>
-            </div>
+        return this.template;
+    }
 
-            <div class="buttons__btn">
-                <i class="material-icons">format_align_center</i>
-            </div>
+    onClick(event: Event) {
+        const $target = DM(event.target as HTMLElement);
 
-            <div class="buttons__btn">
-                <i class="material-icons">format_align_right </i>
-            </div>
+        if ($target.dataSet.type === "button") {
+            const value = JSON.parse($target.dataSet.value);
 
-            <div class="buttons__btn">
-                <i class="material-icons">format_bold</i>
-            </div>
+            this.$emit("toolbar:applyStyle", value);
 
-            <div class="buttons__btn">
-                <i class="material-icons">format_italic</i>
-            </div>
-
-            <div class="buttons__btn">
-                <i class="material-icons">format_underlined</i>
-            </div>
-        </div>
-       `;
+            this.setState(value);
+        }
     }
 }
