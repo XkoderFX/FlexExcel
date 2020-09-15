@@ -3,6 +3,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCss = require("mini-css-extract-plugin");
+const webpack = require("webpack");
 
 const jsLoader = {
     loader: "babel-loader",
@@ -33,6 +34,9 @@ module.exports = {
                     to: path.resolve(__dirname, "dist"),
                 },
             ],
+        }),
+        new webpack.DefinePlugin({
+            "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
         }),
     ],
     module: {

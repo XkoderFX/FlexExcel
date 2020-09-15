@@ -14,6 +14,12 @@ export function changeText(data: { text: string; id: string }) {
     };
 }
 
+export function updateDate() {
+    return {
+        type: types.SET_DATE,
+    };
+}
+
 export function changeStyles(data: any): { type: types; data: any } {
     return {
         type: types.CHANGE_STYLE,

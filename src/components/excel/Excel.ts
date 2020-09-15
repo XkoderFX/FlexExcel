@@ -3,6 +3,12 @@ import { DM, Dom } from "core/domManager";
 import { Emitter } from "core/Emitter";
 import { Store } from "core/store";
 import { StoreSubscriber } from "core/StoreSubscriber";
+import {
+    applyStyle,
+    changeStyles,
+    changeTitle,
+    updateDate,
+} from "@/reducer/actions";
 
 type Options = {
     components: any;
@@ -16,14 +22,17 @@ export default class Excel {
     private store: Store;
     private subscriber: StoreSubscriber;
 
-    constructor(selector: string, options: Options) {
-        this.$el = DM(selector);
+    constructor(options: Options) {
         this.components = options.components || [];
         this.store = options.store;
         this.subscriber = new StoreSubscriber(this.store);
     }
 
     getRoot(): Dom {
+        this.store.dispatch(updateDate());
+
+        //* save excel sheet state before creation
+
         const $root = DM.create("div", "excel");
 
         const componentOptions = {
@@ -49,9 +58,12 @@ export default class Excel {
         return $root;
     }
 
-    render() {
-        this.$el.append(this.getRoot());
-
+    init() {
+        if (process.env.NODE_ENV === "production") {
+            document.addEventListener("contextmenu", (e: Event) =>
+                e.preventDefault()
+            );
+        }
         this.subscriber.subscribeComponents(this.components);
         this.components.forEach((component) => component.init());
     }

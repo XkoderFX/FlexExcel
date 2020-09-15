@@ -38,6 +38,7 @@ export function rootReducer(state: any, action: Action): Reducer {
             action.data.ids.forEach((id: string) => {
                 val[id] = { ...val[id], ...action.data.value };
             });
+
             return {
                 ...state,
                 stylesState: val,
@@ -45,6 +46,15 @@ export function rootReducer(state: any, action: Action): Reducer {
             };
         case types.CHANGE_TITLE:
             return { ...state, title: action.data };
+        case types.SET_DATE:
+            if (!state.creationDate) {
+                const parsed = new Date()
+                    .toLocaleDateString()
+                    .replace(/\//g, ".");
+                return { ...state, creationDate: parsed };
+            }
+            return { ...state };
+
         default:
             return state;
     }
