@@ -16,5 +16,7 @@ export type State = {
     textAlign?: "left" | "center" | "right";
     currentText?: string;
     title: string;
+    id?: string;
+    creationDate?: string;
     [prop: string]: any;
 };

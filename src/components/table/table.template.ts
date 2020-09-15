@@ -58,7 +58,7 @@ function createColumn(x: number, y: number, state: State) {
 
     return /*html*/ `
         <td data-id="${x}:${y}" data-value="${data}" data-type="cell" class="table__column">
-            <input type="text" style='${style}' data-value="${data}" value="${parse(
+            <input type="text" data-id="${x}:${y}" style='${style}' data-value="${data}" value="${parse(
         data
     )}"  />
         </td>

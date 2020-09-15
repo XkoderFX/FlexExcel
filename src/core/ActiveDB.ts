@@ -20,12 +20,15 @@ export default class ActiveDB {
                 this.DB = this.openRequest.result;
                 resolve({ state: "success" });
             });
+
+            this.openRequest.addEventListener("error", () => {
+                resolve({ state: "error" });
+            });
         });
     }
 
     async setItem<T>(key: string, value: T) {
-        const transaction = this.DB.transaction("storage", "readwrite");
-        const storage = transaction.objectStore("storage");
+        const storage = createTransaction(this.DB, "readwrite");
         const request = storage.put(value, key);
 
         request.onsuccess = () => {
@@ -37,10 +40,9 @@ export default class ActiveDB {
         };
     }
 
-    async getItem(key: string): Promise<State> {
+    async getItem<T>(key: string): Promise<State> {
         return new Promise((res, rej) => {
-            const transaction = this.DB.transaction("storage", "readwrite");
-            const storage = transaction.objectStore("storage");
+            const storage = createTransaction(this.DB, "readonly");
             const request = storage.get(key);
 
             request.onsuccess = () => {
@@ -52,4 +54,42 @@ export default class ActiveDB {
             };
         });
     }
+
+    async removeItem(key: string): Promise<State> {
+        return new Promise((res, rej) => {
+            const storage = createTransaction(this.DB, "readwrite");
+            const request = storage.delete(key);
+
+            request.onsuccess = () => {
+                res(request.result);
+            };
+
+            request.onerror = () => {
+                rej(new Error(`getting ${key} from the storage cause error`));
+            };
+        });
+    }
+
+    async getAllKeys(): Promise<any> {
+        return new Promise((res, rej) => {
+            const storage = createTransaction(this.DB, "readonly");
+
+            const request = storage.getAllKeys();
+
+            request.onsuccess = () => {
+                res(request.result);
+            };
+
+            request.onerror = () => {
+                rej(new Error(`getting all keys from the storage cause error`));
+            };
+        });
+    }
+}
+
+function createTransaction(db: IDBDatabase, mode: "readwrite" | "readonly") {
+    const transaction = db.transaction("storage", mode);
+    const storage: IDBObjectStore = transaction.objectStore("storage");
+
+    return storage;
 }

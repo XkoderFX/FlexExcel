@@ -1,6 +1,8 @@
 import ExcelComponent from "core/ExcelComponent";
 import { Dom, DM } from "core/domManager";
 import { changeTitle } from "@/reducer/actions";
+import ActiveRoute from "core/routes/ActiveRoute";
+import { DB } from "@/index";
 
 export class Header extends ExcelComponent {
     storeChanged() {
@@ -11,13 +13,15 @@ export class Header extends ExcelComponent {
     constructor($root: Dom, options: any) {
         super($root, {
             name: "Header",
-            listeners: ["input"],
+            listeners: ["input", "click"],
             ...options,
         });
     }
 
     toHTML(): string {
         const { title } = this.store.getState();
+
+        const dataButton = (type: string) => `data-button = ${type}`;
 
         return /*html*/ `
         <input
@@ -27,15 +31,31 @@ export class Header extends ExcelComponent {
         />
 
         <div class="buttons">
-            <div class="buttons__btn buttons__btn--trash">
-                <i class="material-icons">delete</i>
+            <div ${dataButton(
+                "remove"
+            )} class="buttons__btn buttons__btn--trash">
+                <i ${dataButton("remove")} class="material-icons">delete</i>
             </div>
 
-            <div class="buttons__btn buttons__btn--back">
-                <i class="material-icons">exit_to_app</i>
+            <div ${dataButton("exit")}  class="buttons__btn buttons__btn--back">
+                <i ${dataButton("exit")}  class="material-icons">exit_to_app</i>
             </div>
         </div>
        `;
+    }
+
+    async onClick(event: MouseEvent) {
+        const $target = DM(event.target as HTMLElement);
+
+        if ($target.dataSet.button === "remove") {
+            const decision = confirm("Are you sure you want to remove?");
+            if (decision) {
+                DB.removeItem(`excel:${ActiveRoute.param}`);
+                ActiveRoute.navigate("dashboard");
+            }
+        } else if ($target.dataSet.button === "exit") {
+            ActiveRoute.navigate("dashboard");
+        }
     }
 
     onInput(event: Event) {

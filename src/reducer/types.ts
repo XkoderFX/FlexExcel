@@ -4,6 +4,7 @@ enum types {
     APPLY_STYLE = "APPLY_STYLE",
     CHANGE_STYLE = "CHANGE_STYLE",
     CHANGE_TITLE = "CHANGE_TITLE",
+    SET_DATE = "SET_DATE",
 }
 
 export default types;

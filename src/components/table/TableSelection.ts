@@ -44,6 +44,7 @@ export class TableSelection {
                 document.querySelector(`[data-id="${id}"]`)
                     .firstElementChild as HTMLElement
             ); // we need the inner input therefore, FirstChild
+
             this.group.push($elem);
             $elem.addClass("selected");
         });

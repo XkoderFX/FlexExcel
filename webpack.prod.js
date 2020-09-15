@@ -1,33 +1,24 @@
 const MiniCss = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const commmon = require("./webpack.common");
+const common = require("./webpack.common");
 const { merge } = require("webpack-merge");
-const TerserPlugin = require("terser-webpack-plugin");
+const path = require("path");
 
-module.exports = merge(commmon, {
+module.exports = merge(common, {
     plugins: [
         new MiniCss({
             filename: "bundle.css",
+            path: path.resolve(__dirname, "dist"),
         }),
         new HtmlWebpackPlugin({
+            template: "index.html",
             minify: {
                 collapseWhitespace: true,
                 removeComments: true,
             },
         }),
     ],
-    optimization: {
-        minimize: true,
-        minimizer: [
-            new TerserPlugin({
-                terserOptions: {
-                    compress: {
-                        drop_console: true,
-                    },
-                },
-            }),
-        ],
-    },
+
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, "dist"),
