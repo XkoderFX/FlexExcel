@@ -128,7 +128,6 @@ export class Table extends ExcelComponent {
                 this.selectCell(DM(input));
             }
 
-            let sendText: string;
 
             this.$dispatch(
                 changeText({

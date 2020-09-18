@@ -10,10 +10,13 @@ export default class ActiveDB {
 
     async init() {
         return new Promise((resolve) => {
-            this.openRequest.addEventListener("upgradeneeded", () => {
+            this.openRequest.addEventListener("upgradeneeded", (event: any) => {
                 this.openRequest.result.createObjectStore("storage");
                 this.DB = this.openRequest.result;
-                resolve({ state: "upgrade complete" });
+                const transaction = event.target.transaction;
+                transaction.oncomplete = () => {
+                    resolve({ state: "upgrade complete" });
+                };
             });
 
             this.openRequest.addEventListener("success", () => {
